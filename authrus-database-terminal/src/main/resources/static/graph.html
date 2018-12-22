@@ -25,7 +25,8 @@ window.onload = function() {
         data: JSON.stringify({
             commands: [
                        "select * from memory where name like 'name-%7%' limit 10000", 
-                       "select * from memory where name like 'name-%2%' limit 10000"
+                       "select * from memory where name like 'name-%2%' limit 10000",
+                       "select * from memory where name like 'name-%1%' limit 10000"                       
             ],
             session: 'user-x',
             execute: true
