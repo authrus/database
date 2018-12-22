@@ -44,9 +44,4 @@ public class DatabaseConfiguration {
    public Database database(Catalog catalog) {                    
       return new LocalDatabase(catalog, origin);
    }
-   
-   @Bean
-   public DatabaseService databaseService(Database database, Catalog catalog) {                    
-      return new DatabaseService(database, catalog);
-   }
 }

@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.SneakyThrows;
 
-import com.authrus.http.socket.service.Service;
+import org.simpleframework.http.socket.service.Service;
 
 public class ServiceRegistry {
 

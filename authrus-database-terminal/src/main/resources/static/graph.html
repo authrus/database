@@ -23,7 +23,7 @@ window.onload = function() {
         type: 'POST',
         url: 'v1/console',
         data: JSON.stringify({
-            command: 'select * from memory where size > 200 order by size desc limit 2000',
+            command: 'select * from memory limit 10000',
             session: 'user-x',
             execute: true
         }),
@@ -34,12 +34,12 @@ window.onload = function() {
             var columns = response.content.columns;
             var index = columns.indexOf("size");
             var points = [];
-
+            
             for (var i = 0; i < rows.length; i++) {
                 points.push({
                     x: i,
                     y: parseFloat(rows[i][index])
-                });
+                });            	
             }
             var chart = new CanvasJS.Chart("chart", {
                 creditText: "Show ages",

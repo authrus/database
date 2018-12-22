@@ -2,11 +2,11 @@ package com.authrus.database.service.container;
 
 import lombok.SneakyThrows;
 
-import com.authrus.http.Request;
-import com.authrus.http.Response;
-import com.authrus.http.socket.service.PathRouter;
-import com.authrus.http.socket.service.Router;
-import com.authrus.http.socket.service.Service;
+import org.simpleframework.http.Request;
+import org.simpleframework.http.Response;
+import org.simpleframework.http.socket.service.PathRouter;
+import org.simpleframework.http.socket.service.Router;
+import org.simpleframework.http.socket.service.Service;
 
 public class ServiceRouter extends ServiceRegistry implements Router {
 

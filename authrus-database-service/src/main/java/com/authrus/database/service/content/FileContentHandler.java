@@ -1,6 +1,6 @@
 package com.authrus.database.service.content;
 
-import static com.authrus.http.Status.OK;
+import static org.simpleframework.http.Status.OK;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,8 +11,8 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.tika.io.IOUtils;
-import com.authrus.http.Request;
-import com.authrus.http.Response;
+import org.simpleframework.http.Request;
+import org.simpleframework.http.Response;
 
 @Slf4j
 @AllArgsConstructor

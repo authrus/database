@@ -2,9 +2,9 @@ package com.authrus.database.service.content;
 
 import java.io.File;
 
-import com.authrus.http.Path;
-import com.authrus.http.Request;
-import com.authrus.http.Response;
+import org.simpleframework.http.Path;
+import org.simpleframework.http.Request;
+import org.simpleframework.http.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

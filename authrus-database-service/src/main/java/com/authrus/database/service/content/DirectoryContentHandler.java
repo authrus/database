@@ -1,7 +1,7 @@
 package com.authrus.database.service.content;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static com.authrus.http.Status.OK;
+import static org.simpleframework.http.Status.OK;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -14,8 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-import com.authrus.http.Request;
-import com.authrus.http.Response;
+import org.simpleframework.http.Request;
+import org.simpleframework.http.Response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

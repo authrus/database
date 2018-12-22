@@ -16,12 +16,12 @@ import lombok.SneakyThrows;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.simple.SimpleContainer;
 import org.glassfish.jersey.simple.SimpleTraceAnalyzer;
-import com.authrus.http.core.Container;
-import com.authrus.http.core.ContainerSocketProcessor;
-import com.authrus.http.socket.service.RouterContainer;
-import com.authrus.transport.SocketProcessor;
-import com.authrus.transport.connect.Connection;
-import com.authrus.transport.connect.SocketConnection;
+import org.simpleframework.http.core.Container;
+import org.simpleframework.http.core.ContainerSocketProcessor;
+import org.simpleframework.http.socket.service.RouterContainer;
+import org.simpleframework.transport.SocketProcessor;
+import org.simpleframework.transport.connect.Connection;
+import org.simpleframework.transport.connect.SocketConnection;
 
 public class ContainerManagerBuilder {
 

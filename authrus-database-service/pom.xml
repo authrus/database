@@ -129,12 +129,6 @@
       <version>1.6.1</version>
     </dependency>
     <dependency>
-      <groupId>com.authrus</groupId>
-      <artifactId>authrus-xml</artifactId>
-      <version>2.7.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>

@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Stack;
 
 import javax.management.MBeanServer;
 
@@ -21,8 +22,6 @@ import com.authrus.database.attribute.ObjectBuilder;
 import com.authrus.database.bind.table.attribute.RowBuilder;
 import com.authrus.database.data.DataConstraint;
 import com.authrus.database.data.DataType;
-
-import com.bea.xml.stream.util.Stack;
 import com.sun.management.HotSpotDiagnosticMXBean;
 
 public class TupleMemoryChecker {
