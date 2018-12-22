@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>SQL Terminal</title>
+    <meta name="author" content="Jakub Jankiewicz - jcubic&#64;onet.pl" />
+    <meta name="Description" content="Demonstration for JQuery Terminal Emulator using call automaticly JSON-RPC service (in php) with authentication." />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/jquery.mousewheel-min.js"></script>
+    <script src="js/jquery.terminal-min.js"></script>
+    <link href="css/jquery.terminal.css" rel="stylesheet" />
+    <style>
+    
+    </style>
+</head>
+
+<body>
+
+    <script>
+        jQuery(document).ready(function($) {         
+    		var date = new Date();
+            var id = 1;
+            
+            $('body').terminal(function(command, term) {        		
+            	if(command == 'clear') {
+            		term.clear();
+            	} else {
+                    var time = date.toString();
+                    var session = date.getTime();
+                    
+	                term.pause();                
+	                
+	                $.ajax({
+                		type: 'POST',
+                		url: 'v1/console', 
+                		data: JSON.stringify({
+                			command: command,
+                			date: time,
+                			session: 'user-'+session,
+                			type: 'TEXT'
+                		}),
+                		contentType: "application/json; charset=utf-8",                		
+                		dataType: 'json',
+                		success: function(response) {
+	                		var text = response.error || response.content;	   
+	                		
+	                        term.resume();
+	                        
+	                        if(text && text.length > 0){
+	                            term.echo('[[;#bbb;]' + $.terminal.escape_brackets(text).replace(/\\$/, '&#92;') + ']');	                		
+	                        }
+	                	},
+	                	error: function(xhr){
+	                        term.resume();
+	                    	term.error("Could not execute '" + command + "': " + xhr.status + " " + xhr.statusText);
+	                	}
+	                }
+	              );                        
+            	}
+                
+
+            }, {
+                greetings: "Connected to the SQL terminal",
+                prompt: "sql> ",
+                onBlur: function() {
+                    // prevent loosing focus
+                    return false;
+                }                
+            });
+        });
+            /*                        
+            $('body').terminal(function(command, term) {
+                if (command == 'help') {
+                    term.echo("available commands are sql, js, test");
+                } else if (command == 'test') {
+                    term.push(function(command, term) {
+                        if (command == 'help') {
+                            term.echo('if you type e it will display pong');
+                        } else if (command == 'ping') {
+                            term.echo('pong');
+                        } else {
+                            term.echo('unknown command ' + command);
+                        }
+                    }, {
+                        prompt: 'test> ',
+                        name: 'test'
+                    });
+                } else if (command == "js") {
+                    term.push(function(command, term) {
+                        var result = window.eval(command);
+                        if (result != undefined) {
+                            term.echo(String(result));
+                        }
+                    }, {
+                        name: 'js',
+                        prompt: 'js> '
+                    });
+                } else if (command == 'sql') {
+                    term.push(function(command, term) {
+                        term.pause();
+                        
+                        
+                        $.ajax({url: "query?command="+command,
+                        	success : function(response) {
+                        		var text = "" + response;
+                        		var length = text.length;
+                        		
+                                term.resume();
+                                
+                                if(length > 0){
+                        			term.echo(text);
+                                }
+                        	},
+                        	error: function(xhr){
+                                term.resume();
+                            	term.error("Could not execute '" + command + "': " + xhr.status + " " + xhr.statusText);
+                        	}
+                        });                        
+                        
+                        
+
+                    }, {
+                        greetings: "Connected to the SQL terminal",
+                        prompt: "sql> "
+                    });
+                } else {
+                    term.echo("unknown command " + command);
+                }
+            }, {
+                greetings: "multiply terminals demo use help to see available commands",
+                onBlur: function() {
+                    // prevent loosing focus
+                    return false;
+                }
+            });
+        });*/
+    </script>
+</body>
+

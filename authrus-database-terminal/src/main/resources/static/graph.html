@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>SQL Terminal</title>
+    <meta name="author" content="Jakub Jankiewicz - jcubic&#64;onet.pl" />
+    <meta name="Description" content="Demonstration for JQuery Terminal Emulator using call automaticly JSON-RPC service (in php) with authentication." />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="js/canvasjs.min.js"></script>        
+    <script src="js/jquery-1.7.1.min.js"></script>  
+    <style>
+    
+    </style>
+</head>
+
+<body>
+ <div id="chart" style="height: 300px; width: 100%;"></div>
+<script type="text/javascript">
+window.onload = function() {
+    $.ajax({
+        type: 'POST',
+        url: 'v1/console',
+        data: JSON.stringify({
+            command: 'select * from memory where size > 200 order by size desc limit 2000',
+            session: 'user-x',
+            execute: true
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function(response) {
+            var rows = response.content.rows;
+            var columns = response.content.columns;
+            var index = columns.indexOf("size");
+            var points = [];
+
+            for (var i = 0; i < rows.length; i++) {
+                points.push({
+                    x: i,
+                    y: parseFloat(rows[i][index])
+                });
+            }
+            var chart = new CanvasJS.Chart("chart", {
+                creditText: "Show ages",
+                axisY: {
+                    includeZero: false
+                },
+                data: [{
+                    type: "line",
+                    dataPoints: points
+                }]
+            });
+
+            chart.render();
+        }
+    });
+}
+</script>
+  
+</body>
+

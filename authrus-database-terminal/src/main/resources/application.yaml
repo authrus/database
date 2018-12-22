@@ -1,0 +1,18 @@
+server:
+  environment: local
+  name: database
+  host: localhost
+  description: Database Service  
+  directory: C:/Work/development/authrus/database/authrus-database-terminal
+  port: 7833
+  packages: com.authrus.database.terminal
+
+database:
+  directory: ${server.directory}/store
+  mirror: unknown
+  port: 9223
+
+logging:
+  level:
+    root: INFO        
+
