@@ -23,6 +23,7 @@ public class GoCommand implements Command {
          QueryResult result = runner.run(session, source);
          return CommandResult.builder()
                .formatter(QueryResultFormatter.class)
+               .expression(source)
                .result(result)
                .build();
       } catch (Exception cause) {

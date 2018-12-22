@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class CommandResult {
 
    private Class<? extends CommandFormatter> formatter;
+   private String expression;
    private Object result;
    private String error;
 }

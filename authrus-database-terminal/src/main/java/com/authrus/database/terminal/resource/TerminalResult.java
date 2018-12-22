@@ -1,5 +1,7 @@
 package com.authrus.database.terminal.resource;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +18,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TerminalResult {
 
-   private Object content;
+   private List<Object> content;
    private String error;
 }

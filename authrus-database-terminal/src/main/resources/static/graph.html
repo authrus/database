@@ -23,33 +23,41 @@ window.onload = function() {
         type: 'POST',
         url: 'v1/console',
         data: JSON.stringify({
-            command: 'select * from memory limit 10000',
+            commands: [
+                       "select * from memory where name like 'name-%7%' limit 10000", 
+                       "select * from memory where name like 'name-%2%' limit 10000"
+            ],
             session: 'user-x',
             execute: true
         }),
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         success: function(response) {
-            var rows = response.content.rows;
-            var columns = response.content.columns;
-            var index = columns.indexOf("size");
-            var points = [];
+            var data = [];
             
-            for (var i = 0; i < rows.length; i++) {
-                points.push({
-                    x: i,
-                    y: parseFloat(rows[i][index])
-                });            	
+            for(var n = 0; n < response.content.length; n++) {
+	            var rows = response.content[n].rows;
+	            var columns = response.content[n].columns;
+	            var index = columns.indexOf("size");
+	            var points = [];
+	            
+	            for (var i = 0; i < rows.length; i++) {
+	                points.push({
+	                    x: i,
+	                    y: parseFloat(rows[i][index])
+	                });            	
+	            }
+	            data.push({
+                    type: "line",
+                    dataPoints: points
+                });
             }
             var chart = new CanvasJS.Chart("chart", {
                 creditText: "Show ages",
                 axisY: {
                     includeZero: false
                 },
-                data: [{
-                    type: "line",
-                    dataPoints: points
-                }]
+                data: data
             });
 
             chart.render();

@@ -37,7 +37,7 @@
                 		type: 'POST',
                 		url: 'v1/console', 
                 		data: JSON.stringify({
-                			command: command,
+                			commands: [command],
                 			date: time,
                 			session: 'user-'+session,
                 			type: 'TEXT'
@@ -45,7 +45,7 @@
                 		contentType: "application/json; charset=utf-8",                		
                 		dataType: 'json',
                 		success: function(response) {
-	                		var text = response.error || response.content;	   
+	                		var text = response.error || response.content[0];	   
 	                		
 	                        term.resume();
 	                        

@@ -2,8 +2,12 @@ package com.authrus.database.terminal.resource;
 
 import static com.authrus.database.terminal.resource.TerminalType.TEXT;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.authrus.database.Database;
 import com.authrus.database.engine.Catalog;
@@ -26,38 +30,52 @@ public class TerminalService {
    }
    
    public CompletableFuture<TerminalResult> submit(TerminalRequest request) {
+      TerminalType type = request.getType();
+      
+      if(type != TEXT) {
+         return submit(request, (results) -> {
+            return results.stream()
+                  .map(CommandResult::getResult)
+                  .filter(Objects::nonNull)                  
+                  .collect(Collectors.toList());
+         });
+      }
+      return submit(request, (results) -> {
+         return results.stream()
+            .map(result -> {
+               try {
+                  Class<? extends CommandFormatter> factory = result.getFormatter();
+                  CommandFormatter formatter = factory.newInstance();
+                  String expression = result.getExpression();
+                  Object value = result.getResult();                           
+                  
+                  return formatter.format(expression, value);
+               } catch(Exception e) {
+                  return null;
+               }
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+      });
+   }
+   
+   private CompletableFuture<TerminalResult> submit(TerminalRequest request, Function<List<CommandResult>, List<Object>> function) {
       CompletableFuture<TerminalResult> future = new CompletableFuture<>();      
       
       executor.execute(() -> {
          try {
             boolean execute = request.isExecute();
+            List<String> text = request.getCommands();
             String date = request.getDate();
-            String text = request.getCommand();
             String user = request.getSession();
-            TerminalType type = request.getType();
-            SessionTime time = parser.parseTime(date);
-            CommandResult result = interpreter.execute(time, user, text, execute);
-            Object value = result.getResult();
-            String error = result.getError();
+            SessionTime time = parser.parseTime(date); 
+            List<CommandResult> results = interpreter.execute(time, text, user, execute);
+            List<Object> values = function.apply(results);            
+            TerminalResult response = TerminalResult.builder()
+                  .content(values)
+                  .build();
             
-            if(type != TEXT) {                       
-               TerminalResult response = TerminalResult.builder()
-                     .content(value)
-                     .error(error)
-                     .build();
-               
-               future.complete(response);
-            } else {
-               Class<? extends CommandFormatter> factory = result.getFormatter();
-               CommandFormatter formatter = factory.newInstance();
-               String output = formatter.format(text, value);
-               TerminalResult response = TerminalResult.builder()
-                     .content(output)
-                     .error(error)                     
-                     .build();
-               
-               future.complete(response);  
-            }
+            future.complete(response);
          }catch(Exception cause){
             future.completeExceptionally(cause);
          }
