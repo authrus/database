@@ -6,7 +6,7 @@ starts it simply reads from the start of the log and plays the events back in to
 
 A key feature here is the ability to run multiple instances of the database and remotely connect them. The separate instances
 will subscribe to each others event log and apply mutations to its state machine representing the catalog of tables. Each instance
-will store the others event log annotated and interleaved with its own. Consistency is
+will store the others event log, annotated and interleaved with its own. Consistency is
 eventual, however the replication performance for co-located instances is in the micro-second time frame.
 
 #### Features
